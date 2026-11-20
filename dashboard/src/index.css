@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Paleta NFL como variables CSS (fuente única de verdad de los tokens) */
+:root {
+  --nfl-navy: #013369;
+  --nfl-red: #D50A0A;
+  --nfl-white: #FFFFFF;
+  --nfl-dark: #001A38;
+  --nfl-light: #F2F5F9;
+  --nfl-border: #C8D1DC;
+  --escala-texto: 1;
+}
+
+html { font-size: calc(16px * var(--escala-texto)); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body { @apply font-sans antialiased; overflow-x: hidden; }
+
+@layer components {
+  .titular { @apply font-display font-extrabold uppercase tracking-wide; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 min-h-[44px] font-bold transition focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-amber-400 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-rojo { @apply btn bg-nfl-red text-white hover:bg-red-700; }
+  .btn-navy { @apply btn bg-nfl-navy text-white hover:bg-blue-900; }
+  .btn-claro { @apply btn bg-white text-nfl-navy border border-nfl-border hover:bg-nfl-light; }
+  .btn-fantasma { @apply btn bg-white/10 text-white border border-white/25 hover:bg-white/20; }
+  .tarjeta { @apply bg-white rounded-2xl border border-nfl-border shadow-sm; }
+  .campo-form { @apply w-full rounded-xl border border-nfl-border bg-nfl-light px-3.5 py-2.5 text-nfl-dark focus:outline-none focus:ring-4 focus:ring-nfl-navy/30; }
+  .etiqueta { @apply block text-sm font-bold text-nfl-navy mb-1; }
+}
+
+/* Jugadores del campo: transición animada entre formaciones */
+.nodo-jugador { transition: transform .65s cubic-bezier(.22, 1, .36, 1); cursor: pointer; }
+.nodo-jugador:focus { outline: none; }
+.nodo-jugador:focus circle, .nodo-jugador:hover circle { stroke-width: 4px; filter: drop-shadow(0 0 6px rgba(255,255,255,.9)); }
+
+/* Impresión / "Guardar como PDF" del análisis */
+@media print {
+  .no-imprimir { display: none !important; }
+  body { background: #fff !important; }
+  .tarjeta { break-inside: avoid; box-shadow: none; }
+}

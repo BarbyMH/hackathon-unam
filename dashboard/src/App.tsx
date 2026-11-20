@@ -1,15 +1,41 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts'
+/**
+ * Raíz de la aplicación. Dos portales independientes que no comparten menús ni navegación:
+ *   #/apuestas, #/apuestas/login, #/apuestas/registro  -> Portal A (rol usuario)
+ *   #/admin/login, #/admin/analisis                     -> Portal B (rol admin)
+ * La autorización real la hace el servidor; aquí solo se elige la pantalla.
+ */
+import { lazy, Suspense } from 'react'
+import { LoginUsuario, RegistroUsuario } from './app/apuestas/Acceso'
+import { LoginAdmin } from './app/admin/AccesoAdmin'
+import { GlosarioModal } from './components/Experiencia'
+import { Cargando, Toasts } from './components/ui'
+import { ProveedorPreferencias } from './lib/preferencias'
+import { useRuta } from './lib/router'
 
-const datos = [{ nombre: 'Ejemplo A', valor: 3 }, { nombre: 'Ejemplo B', valor: 5 }]
+// Carga diferida: cada portal se descarga solo cuando se visita
+const PortalApuestas = lazy(() => import('./app/apuestas/PortalApuestas'))
+const PortalAnalisis = lazy(() => import('./app/admin/PortalAnalisis'))
+
+function Pantalla() {
+  const ruta = useRuta()
+  switch (ruta) {
+    case '/apuestas/login': return <LoginUsuario />
+    case '/apuestas/registro': return <RegistroUsuario />
+    case '/admin/login': return <LoginAdmin />
+    case '/admin/analisis': return <PortalAnalisis />
+    default: return <PortalApuestas />
+  }
+}
 
 export default function App() {
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold">Hackathon NFL UNAM</h1>
-      <p className="text-gray-600">Plantilla lista. Reemplaza esta pantalla con tu proyecto.</p>
-      <BarChart width={320} height={200} data={datos}>
-        <XAxis dataKey="nombre" /><YAxis /><Bar dataKey="valor" fill="#2F7D4F" />
-      </BarChart>
-    </main>
+    <ProveedorPreferencias>
+      <a href="#contenido" onClick={e => { e.preventDefault(); document.querySelector('main')?.focus() }} className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[200] focus:rounded-lg focus:bg-white focus:p-3 focus:text-nfl-navy">Saltar al contenido</a>
+      <Suspense fallback={<div className="min-h-screen bg-nfl-dark"><Cargando oscuro /></div>}>
+        <Pantalla />
+      </Suspense>
+      <GlosarioModal />
+      <Toasts />
+    </ProveedorPreferencias>
   )
 }
