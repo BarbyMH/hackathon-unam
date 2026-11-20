@@ -27,6 +27,9 @@ from . import store
 DEMO = os.environ.get("DEMO_MODE", "1") != "0"
 _SECRETO_BASE = os.environ.get("JWT_SECRET") or secrets.token_urlsafe(48)
 COOKIE_SEGURA = os.environ.get("COOKIE_SECURE", "1") != "0"
+# LOGIN_REQUERIDO=1 vuelve a exigir inicio de sesión en ambos portales. Por defecto está desactivado
+# y cada portal usa su cuenta demo.
+LOGIN_REQUERIDO = os.environ.get("LOGIN_REQUERIDO", "0") == "1"
 
 # Configuración por portal: nada se comparte entre ambos.
 PORTALES = {
@@ -190,6 +193,9 @@ def exigir(portal: str):
 
     def dependencia(request: Request) -> dict:
         carga = _sesion(request, portal)
+        if carga is None and not LOGIN_REQUERIDO:
+            # Sin login: se usa la cuenta demo del portal (sin cookie de sesión, por eso no aplica CSRF)
+            return identidad_demo(portal)
         if carga is None:
             if _sesion(request, otro) is not None:
                 store.registrar_acceso("acceso_denegado", portal, ip_de(request), detalle=f"rol {otro} -> {request.url.path}", ok=False)
@@ -212,6 +218,15 @@ DEMO_ADMIN_EMAIL = "admin@gridiron.demo"
 DEMO_USUARIO_EMAIL = "aficionado@gridiron.demo"
 
 
+def identidad_demo(portal: str) -> dict:
+    """Identidad usada cuando el login está desactivado: la cuenta demo de cada portal."""
+    if portal == "usuario":
+        u = store.USUARIOS[DEMO_USUARIO_EMAIL]
+        return {"sub": u.id, "rol": "usuario", "email": u.email, "sin_login": True}
+    a = store.ADMINS[DEMO_ADMIN_EMAIL]
+    return {"sub": a.id, "rol": "admin", "email": a.email, "sin_login": True}
+
+
 def sembrar_cuentas() -> None:
     """Crea el primer superadmin desde variables de entorno; en modo demo, además cuentas de prueba."""
     email = os.environ.get("ADMIN_EMAIL", "").strip().lower()
@@ -219,7 +234,7 @@ def sembrar_cuentas() -> None:
     if email and pwd:
         secreto = os.environ.get("ADMIN_TOTP_SECRET") or nuevo_secreto_totp()
         store.ADMINS[email] = store.Admin(store.nuevo_id("ADM"), "Superadmin", email, hash_password(pwd), secreto, superadmin=True)
-    if DEMO:
+    if DEMO or not LOGIN_REQUERIDO:  # sin login se necesitan las cuentas demo
         if DEMO_ADMIN_EMAIL not in store.ADMINS:
             store.ADMINS[DEMO_ADMIN_EMAIL] = store.Admin(
                 store.nuevo_id("ADM"), "Analista demo", DEMO_ADMIN_EMAIL, hash_password("AdminDemo2026"),

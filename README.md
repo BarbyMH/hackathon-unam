@@ -32,6 +32,8 @@ npm run dev
 
 Abre `http://localhost:5173` (usa `localhost`, no `127.0.0.1`). Vite envía `/api` al backend en el puerto 8000.
 
+**Sin inicio de sesión (por defecto):** abre `#/apuestas` o `#/admin/analisis` directamente; cada portal usa su cuenta demo. Para volver a exigir login en ambos portales, pon `LOGIN_REQUERIDO=1` en `.env`, reinicia el backend y vuelve a enlazar las pantallas de `app/apuestas/Acceso.tsx` y `app/admin/AccesoAdmin.tsx` en `App.tsx`.
+
 **Cuentas de prueba (solo con `DEMO_MODE=1`, que es el valor por defecto):**
 
 - Usuario: `aficionado@gridiron.demo` / `Aficionado2026`

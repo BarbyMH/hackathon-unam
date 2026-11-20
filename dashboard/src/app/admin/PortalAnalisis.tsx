@@ -44,8 +44,6 @@ export default function PortalAnalisis() {
   useEffect(() => { cargar() }, [cargar])
   useTourPrimeraVez('gmx_tour_admin')
 
-  const salir = async () => { await api('auth/admin/logout', { metodo: 'POST' }).catch(() => null); navegar('/admin/login') }
-
   if (error) return <div className="min-h-screen bg-nfl-light pt-24"><MensajeError texto={error} reintentar={cargar} /></div>
   if (!sesion || !a) return <div className="min-h-screen bg-nfl-light"><Cargando texto="Calculando el análisis…" /></div>
 
@@ -56,7 +54,7 @@ export default function PortalAnalisis() {
         marca={<span className="flex items-center gap-2.5"><span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-nfl-red bg-white font-display text-lg font-extrabold text-nfl-navy">BI</span>
           <span className="leading-none"><span className="block font-display text-xl font-extrabold tracking-wider text-white">GRIDIRON <span className="text-red-300">ANALYTICS</span></span><span className="block font-mono text-[10px] uppercase tracking-widest text-blue-200">Panel de análisis · admin</span></span></span>}
         items={[{ id: 'resumen', etiqueta: 'Resumen', icono: '🏈' }, { id: 'jugadores', etiqueta: 'Jugadores', icono: '⭐' }, { id: 'campo', etiqueta: 'Campo', icono: '🏟' }, { id: 'probabilidades', etiqueta: 'Probabilidades', icono: '🎯' }, { id: 'gestion', etiqueta: 'Gestión', icono: '⚙' }]}
-        acciones={<button onClick={salir} className="btn-rojo min-h-[44px] px-3 text-sm">Salir</button>} />
+        acciones={<button onClick={() => navegar('/apuestas')} className="btn-rojo min-h-[44px] px-3 text-sm"><span aria-hidden>🎟</span> Ir a apuestas</button>} />
       <div className="no-imprimir"><Hero cta="Ver análisis" destino="analisis" etiquetaScroll="Explorar datos" /></div>
       <Tour pasos={PASOS} />
 

@@ -223,3 +223,40 @@ Revisando desviaciones del stack...
 12:20:44 
 RESULTADO: TODO OK, puedes entregar.
 12:20:44 FIN con código de salida 0
+
+===== setup 2026-11-20 12:49:51 =====
+12:49:51 Sistema detectado: windows x64  |  Python del arranque: 3.12.12
+12:49:51 MODO: check  |  versión del script: 2026-11-16  |  argumentos: --check
+12:49:52 SISTEMA: Windows-11-10.0.26300-SP0  |  detectado: windows x64  |  versión: 10.0.26300
+12:49:52 WINDOWS: build 26300  |  administrador: False
+12:49:52 PYTHON: 3.12.12 (C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe)
+12:49:52 USUARIO: Home  |  carpeta actual: C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam
+12:49:52 PROYECTO: C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam  |  largo de ruta: 117  |  espacios: True  |  no ASCII: False
+12:49:52 DISCO LIBRE: 145.7 GB
+12:49:52 PROXY: ninguno
+12:49:52 Proyecto: C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam
+12:49:52 
+Validando (no se descarga ni instala nada)...
+12:49:52 $ C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip check --python C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe
+12:49:52 Checked 57 packages in 4ms
+All installed packages are compatible
+12:49:52 $ C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import pandas, numpy, fastapi, uvicorn, pydantic, strands, boto3, httpx
+12:49:55 
+12:49:55   Pieza              Esperado                            Encontrado      Estado
+12:49:55   -----------------  ----------------------------------  --------------  ------
+12:49:55   uv                 0.11.19                             0.11.19         OK    
+12:49:55   Python (.venv)     3.12.12                             3.12.12         OK    
+12:49:55   Node               v22.23.1                            v22.23.1        OK    
+12:49:55   npm                10.x                                10.9.8          OK    
+12:49:55   Paquetes Python    9 fijos                             9 coinciden     OK    
+12:49:55   Paquetes npm       12 fijos                            12 coinciden    OK    
+12:49:55   pip check          sin conflictos                      sin conflictos  OK    
+12:49:55   Importar paquetes  pandas, fastapi, pydantic, strands  importan        OK    
+12:49:55 
+Revisando desviaciones del stack...
+12:49:55 $ C:\Users\Home\OneDrive - TECNOLOGICO DE ESTUDIOS SUPERIORES DE ECATEPEC\Documentos\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import backend.main as m;assert hasattr(m,'app'), 'APP';assert any(getattr(r,'path','')=='/health' for r in m.app.routes), 'HEALTH'
+12:49:57 
+12:49:57     El proyecto sigue el stack del evento
+12:49:57 
+RESULTADO: TODO OK, puedes entregar.
+12:49:57 FIN con código de salida 0

@@ -100,8 +100,6 @@ export default function PortalApuestas() {
     } finally { setEnviando(false) }
   }
 
-  const salir = async () => { await api('auth/usuario/logout', { metodo: 'POST' }).catch(() => null); navegar('/apuestas/login') }
-
   if (error) return <div className="min-h-screen bg-nfl-dark pt-24"><MensajeError texto={error} reintentar={cargar} /></div>
   if (!sesion || !cuenta) return <div className="min-h-screen bg-nfl-dark"><Cargando texto="Preparando el partido…" oscuro /></div>
 
@@ -119,7 +117,6 @@ export default function PortalApuestas() {
         items={[{ id: 'principales', etiqueta: 'Mercados', icono: '🏈' }, { id: 'props', etiqueta: 'Jugadores', icono: '👤' }, { id: 'especiales', etiqueta: 'Especiales', icono: '★' }, { id: 'lo-basico', etiqueta: 'Lo básico', icono: '📘' }, { id: 'mi-cuenta', etiqueta: 'Mi cuenta', icono: '💳' }]}
         acciones={<>
           <span className="hidden rounded-lg border border-white/30 bg-nfl-navy px-3 py-1.5 text-right sm:block"><span className="block text-[10px] text-blue-200">Saldo demo</span><span className="font-mono text-sm font-bold">{pesos(cuenta.saldo)}</span></span>
-          <button onClick={salir} className="btn-fantasma min-h-[44px] px-3 text-sm">Salir</button>
         </>} />
 
       <Hero cta="Apostar ahora" destino="mercados" etiquetaScroll="Ver mercados" />
